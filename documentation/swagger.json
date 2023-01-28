@@ -80,7 +80,7 @@
         }
       }
     },
-    "/auth/reser-password": {
+    "/auth/reset-password": {
       "put": {
         "tags": ["Auth"],
         "summary": "Reset password",
