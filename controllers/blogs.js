@@ -1,8 +1,12 @@
 import Blog from "../models/blogs.js";
+import faker from "faker";
 
 export const createBlog = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    // const { title, content } = req.body;
+    // for demo purpose added faker to genrate blog post
+    const title = faker.lorem.sentence();
+    const content = faker.lorem.paragraph();
     const author = req.userId;
     const newBlog = new Blog({
       title,
@@ -69,7 +73,7 @@ export const deleteBlog = async (req, res) => {
 
 export const getBlogs = async (req, res) => {
   try {
-    const page = req.params.page;
+    const page = req.query.page || 1;
     const limit = 10;
     const skip = (page - 1) * limit;
     const blogs = await Blog.find()
