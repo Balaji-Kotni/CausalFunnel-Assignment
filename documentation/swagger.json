@@ -80,6 +80,34 @@
         }
       }
     },
+    "/auth/reser-password": {
+      "put": {
+        "tags": ["Auth"],
+        "summary": "Reset password",
+        "description": "Reset password",
+        "operationId": "resetPassword",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
     "/": {
       "get": {
         "tags": ["Blog"],
@@ -265,6 +293,20 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ResetPassword": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "passwordConfirm": {
           "type": "string"
         }
       }

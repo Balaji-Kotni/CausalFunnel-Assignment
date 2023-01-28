@@ -7,12 +7,10 @@ The base URL for the API is http://localhost:5001/api.
 # User Authentication
 The following endpoints are used for user authentication:
 
-```bash
 Endpoint	Description
-POST /signup	Create a new user account
-POST /login	Authenticate an existing user
-POST /reset-password	Reset a user's password
-```
+POST /signup	Sign up for a new account
+POST /login	Login to an existing account
+POST /reset-password	Reset your password
 
 # Blog Management
 The following endpoints are used for managing blogs:
