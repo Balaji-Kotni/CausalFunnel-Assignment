@@ -7,6 +7,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 import blogRoutes from "./routes/blogs.js";
 import authRoutes from "./routes/auth.js";
+
+//swaggerUI
+import swaggerUI from "swagger-ui-express";
+import swaggerDoc from "./documentation/swagger.json";
+
 /* CONFIGURATION */
 dotenv.config();
 const app = express();
@@ -21,6 +26,23 @@ app.use(morgan("common"));
 app.use(cors());
 app.use(bodyParser.json({ limit: "30mb", extended: false }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: false }));
+
+//swagger UI Config
+swaggerDoc.components = {
+  securitySchemes: {
+    bearerAuth: {
+      type: "http",
+      scheme: "bearer",
+      bearerFormat: "JWT",
+    },
+  },
+};
+swaggerDoc.security = [
+  {
+    bearerAuth: [],
+  },
+];
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 /* ROUTES */
 app.use("/api/auth", authRoutes);

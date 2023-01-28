@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon --experimental-json-modules index.js",
+    "start": "node --experimental-json-modules index.js"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "mongoose": "^6.9.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.0"
   }
 }

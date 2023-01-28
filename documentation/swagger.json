@@ -1,0 +1,354 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Blog API",
+    "description": "A sample API for a blogging website",
+    "version": "1.0.0"
+  },
+  "contact": {
+    "name": "API Support",
+    "url": "http://www.swagger.io/support",
+    "email": "kotnivenkatabalaji@gmail.com"
+  },
+  "schema": ["http", "https"],
+  "host": "localhost:5001",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Everything about your Auth"
+    },
+    {
+      "name": "Blog",
+      "description": "Everything about your Blog"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register a user",
+        "description": "Register a user",
+        "operationId": "registerUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login a user",
+        "description": "Login a user",
+        "operationId": "loginUser",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "User object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": ["Blog"],
+        "summary": "Get all blogs",
+        "description": "Returns 10 blogs per page",
+        "operationId": "findBlogs",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number to return. If not specified, the first page is returned.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Blog"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create": {
+      "post": {
+        "tags": ["Blog"],
+        "summary": "Create a blog",
+        "description": "Create a blog",
+        "operationId": "createBlog",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": ["write:blogs", "read:blogs"]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Blog object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateBlog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          }
+        }
+      }
+    },
+    "/update/:id": {
+      "put": {
+        "tags": ["Blog"],
+        "summary": "Update a blog",
+        "description": "Update a blog",
+        "operationId": "updateBlog",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": ["write:blogs", "read:blogs"]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog id that needs to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Blog object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateBlog"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          },
+          "404": {
+            "description": "Blog not found"
+          },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "message": "You are not authorized to update this blog"
+            }
+          }
+        }
+      }
+    },
+    "/delete/:id": {
+      "delete": {
+        "tags": ["Blog"],
+        "summary": "Delete a blog",
+        "description": "Delete a blog",
+        "operationId": "deleteBlog",
+        "produces": ["application/json"],
+        "security": [
+          {
+            "BearerAuth": ["write:blogs", "read:blogs"]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Blog id that needs to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          },
+          "404": {
+            "description": "Blog not found"
+          },
+          "403": {
+            "description": "Unauthorized",
+            "schema": {
+              "message": "You are not authorized to delete this blog"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "scheme": "bearer",
+      "description": "Pass the token in this format: Bearer Token"
+    }
+  },
+  "securitySchemes": {},
+  "definitions": {
+    "LoginUser": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "RegisterUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Blog": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "CreateBlog": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      }
+    },
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
