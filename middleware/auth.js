@@ -3,6 +3,11 @@ import jwt from "jsonwebtoken";
 export const verifyToken = async (req, res, next) => {
   try {
     //CHECK HEADER
+    if (!req.headers.authorization) {
+      return res.status(403).json({
+        error: "Token missing",
+      });
+    }
     const token = req.headers.authorization.split(" ")[1];
     if (!token) {
       return res.status(403).json({
@@ -23,6 +28,7 @@ export const verifyToken = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(500).json({
+      error: error.message,
       message: "Something went wrong",
     });
   }

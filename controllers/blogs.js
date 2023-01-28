@@ -2,7 +2,8 @@ import Blog from "../models/blogs.js";
 
 export const createBlog = async (req, res) => {
   try {
-    const { title, content, author } = req.body;
+    const { title, content } = req.body;
+    const author = req.userId;
     const newBlog = new Blog({
       title,
       content,
