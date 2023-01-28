@@ -1,5 +1,5 @@
 import Blog from "../models/blogs.js";
-import faker from "faker";
+import { faker } from "@faker-js/faker";
 
 export const createBlog = async (req, res) => {
   try {
