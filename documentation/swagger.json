@@ -171,7 +171,7 @@
         }
       }
     },
-    "/update/:id": {
+    "/update/{id}": {
       "put": {
         "tags": ["Blog"],
         "summary": "Update a blog",
@@ -220,7 +220,7 @@
         }
       }
     },
-    "/delete/:id": {
+    "/delete/{id}": {
       "delete": {
         "tags": ["Blog"],
         "summary": "Delete a blog",
